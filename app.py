@@ -81,3 +81,22 @@ class FunctionCallVisitor(ast.NodeVisitor):
             self.function_calls.append(f"{ast.unparse(node.func)}")
         self.generic_visit(node)
 
+def analyze_python_file(file_path):
+    if not os.path.isfile(file_path):
+        print(f"File '{file_path}' does not exist.")
+        return
+
+    with open(file_path, "r", encoding="utf-8") as file:
+        code = file.read()
+
+    try:
+        tree = ast.parse(code)
+        analyzer = PythonAnalyzer()
+        analyzer.visit(tree)
+        analyzer.report()
+    except SyntaxError as e:
+        print(f"Syntax error in file '{file_path}': {e}")
+
+if __name__ == "__main__":
+    file_path = input("Enter the path to the Python file to analyze: ").strip()
+    analyze_python_file(file_path)
