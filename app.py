@@ -14,3 +14,9 @@ class PythonAnalyzer(ast.NodeVisitor):
             self.imports.append(alias.name)
         self.generic_visit(node)
 
+    def visit_ImportFrom(self, node):
+        module = node.module if node.module else ""
+        for alias in node.names:
+            self.imports.append(f"{module}.{alias.name}")
+        self.generic_visit(node)
+
