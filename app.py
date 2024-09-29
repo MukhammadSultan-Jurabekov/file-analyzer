@@ -8,3 +8,9 @@ class PythonAnalyzer(ast.NodeVisitor):
         self.classes = []
         self.variables = []
         self.function_calls = []
+
+    def visit_Import(self, node):
+        for alias in node.names:
+            self.imports.append(alias.name)
+        self.generic_visit(node)
+
