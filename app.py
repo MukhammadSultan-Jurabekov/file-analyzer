@@ -20,3 +20,8 @@ class PythonAnalyzer(ast.NodeVisitor):
             self.imports.append(f"{module}.{alias.name}")
         self.generic_visit(node)
 
+    def visit_FunctionDef(self, node):
+        self.functions.append(node.name)
+        for arg in node.args.args:
+            self.variables.append(arg.arg)
+        
