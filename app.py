@@ -70,3 +70,14 @@ class PythonAnalyzer(ast.NodeVisitor):
         for call in self.function_calls:
             print(f"  - {call}")
 
+class FunctionCallVisitor(ast.NodeVisitor):
+    def __init__(self, function_calls):
+        self.function_calls = function_calls
+
+    def visit_Call(self, node):
+        if isinstance(node.func, ast.Name):
+            self.function_calls.append(node.func.id)
+        elif isinstance(node.func, ast.Attribute):
+            self.function_calls.append(f"{ast.unparse(node.func)}")
+        self.generic_visit(node)
+
