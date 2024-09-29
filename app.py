@@ -47,3 +47,26 @@ class PythonAnalyzer(ast.NodeVisitor):
             self.variables.append(node.targets[0].id)
         self.generic_visit(node)
 
+    def report(self):
+        print("Imports:")
+        for imp in self.imports:
+            print(f"  - {imp}")
+        
+        print("\nFunctions:")
+        for func in self.functions:
+            print(f"  - {func}")
+
+        print("\nClasses:")
+        for cls in self.classes:
+            print(f"  - {cls['name']}")
+            for method in cls["methods"]:
+                print(f"    - Method: {method}")
+
+        print("\nVariables:")
+        for var in set(self.variables):
+            print(f"  - {var}")
+
+        print("\nFunction Calls:")
+        for call in self.function_calls:
+            print(f"  - {call}")
+
